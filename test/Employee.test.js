@@ -1,83 +1,48 @@
-const fs = require("fs");
-const {
-  filterByQuery,
-  findById,
-  createNewZookeeper,
-  validateZookeeper,
-} = require("../lib/Employee.js");
-const { zookeepers } = require("../data/zookeepers");
+const Employee = require('../lib/Employee');
 
-jest.mock("fs");
-test("creates an zookeeper object", () => {
-  const zookeeper = createNewZookeeper(
-    { name: "Darlene", id: "jhgdja3ng2" },
-    zookeepers
-  );
+test("Is this an object", () => {
+  const obj = new Employee()
+  expect(typeof (obj)).toBe("object")
+})
 
-  expect(zookeeper.name).toBe("Darlene");
-  expect(zookeeper.id).toBe("jhgdja3ng2");
-});
+test("Can set name", () => {
+  const name = 'Christian'
+  const obj = new Employee(name)
+  expect(obj.name).toBe(name)
+})
 
-test("filters by query", () => {
-  const startingZookeepers = [
-    {
-      id: "2",
-      name: "Raksha",
-      age: 31,
-      favoriteAnimal: "penguin",
-    },
-    {
-      id: "3",
-      name: "Isabella",
-      age: 67,
-      favoriteAnimal: "bear",
-    },
-  ];
+test("Can set id", () => {
+  const id = '1'
+  const obj = new Employee("name", id)
+  expect(obj.id).toBe(id)
+})
 
-  const updatedZookeepers = filterByQuery({ age: 31 }, startingZookeepers);
+test("Can set email", () => {
+  const email = 'test@test.com'
+  const obj = new Employee("name", "id", email)
+  expect(obj.email).toBe(email)
+})
 
-  expect(updatedZookeepers.length).toEqual(1);
-});
+test('can get name through function', () => {
+  const name = "Christian"
+  const obj = new Employee(name)
+  expect(obj.getName()).toBe(name)
+})
 
-test("finds by id", () => {
-  const startingZookeepers = [
-    {
-      id: "2",
-      name: "Raksha",
-      age: 31,
-      favoriteAnimal: "penguin",
-    },
-    {
-      id: "3",
-      name: "Isabella",
-      age: 67,
-      favoriteAnimal: "bear",
-    },
-  ];
+test('can get id through function', () => {
+  const id = "1"
+  const obj = new Employee("name", id)
+  expect(obj.getId()).toBe(id)
+})
 
-  const result = findById("3", startingZookeepers);
+test('can get email through function', () => {
+  const email = "test@test.com"
+  const obj = new Employee("name", "id", email)
+  expect(obj.getEmail()).toBe(email)
+})
 
-  expect(result.name).toBe("Isabella");
-});
-
-test("validates age", () => {
-  const zookeeper = {
-    id: "2",
-    name: "Raksha",
-    age: 31,
-    favoriteAnimal: "penguin",
-  };
-
-  const invalidZookeeper = {
-    id: "3",
-    name: "Isabella",
-    age: "67",
-    favoriteAnimal: "bear",
-  };
-
-  const result = validateZookeeper(zookeeper);
-  const result2 = validateZookeeper(invalidZookeeper);
-
-  expect(result).toBe(true);
-  expect(result2).toBe(false);
-});
+test('can get role through function', () => {
+  const role = "Employee"
+  const obj = new Employee("name", "id", "email")
+  expect(obj.getRole()).toBe(role)
+})
